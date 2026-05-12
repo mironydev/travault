@@ -19,7 +19,7 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Grid Section */}
+        {/* Grid section */}
         <div className="grid grid-cols-1 justify-items-center md:grid-cols-4 gap-10">
           {/* Newsletter */}
           <div>
@@ -28,7 +28,11 @@ const Footer = () => {
               Subscribe for exclusive travel deals and inspiration.
             </p>
 
-            <div className="flex items-center bg-gray-800 ">
+            <div
+              className="flex 
+            items-center
+             bg-gray-800 "
+            >
               <input
                 type="email"
                 placeholder="Enter email"
