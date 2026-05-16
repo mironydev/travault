@@ -1,9 +1,21 @@
+"use client";
+
+import { authClient } from "@/app/lib/auth-client";
+import { Avatar, Spinner } from "@heroui/react";
 import Link from "next/link";
 import React from "react";
+import { GoSignOut } from "react-icons/go";
 
 const Navbar = () => {
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+  };
+
   return (
-    <div className="container mx-auto max-lg:collapse pl-4">
+    <div className="container mx-auto max-lg:collapse pl-4 select-none">
       <input id="navbar-1-toggle" className="peer hidden" type="checkbox" />
       <label
         htmlFor="navbar-1-toggle"
@@ -39,7 +51,10 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href={"/"} className="py-1 px-3 hover:text-black">
+              <Link
+                href={"/destinations"}
+                className="py-1 px-3 hover:text-black"
+              >
                 Destinations
               </Link>
             </li>
@@ -53,23 +68,60 @@ const Navbar = () => {
                 Admin
               </Link>
             </li>
+            <li>
+              <Link
+                href={"/add-destination"}
+                className="py-1 px-3 hover:text-black"
+              >
+                Add Destination
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="navbar-end font-medium">
-          <Link href={"/"}>
-            <button className="py-2 px-4 hover:bg-base-300 cursor-pointer active:bg-base-200">
-              Login
-            </button>
-          </Link>
-          <Link href={"/"} className="hidden sm:block">
-            <button className="py-2 px-4 hover:bg-base-300 active:bg-base-200 cursor-pointer">
-              Sign Up
-            </button>
-          </Link>
+          {isPending ? (
+            <div className="flex items-center gap-4">
+              <Spinner />
+            </div>
+          ) : user ? (
+            <div className="flex items-center gap-2">
+              <Link href={"/profile"}>
+                <Avatar>
+                  <Avatar.Image
+                    className="hover:bg-gray-300 active:bg-gray-200 duration-75"
+                    alt="John Doe"
+                    src={user?.image}
+                  />
+                  <Avatar.Fallback className="hover:bg-gray-300 active:bg-gray-200 duration-75">
+                    {user.name.charAt(0)}
+                  </Avatar.Fallback>
+                </Avatar>
+              </Link>
+              <button
+                className="mr-4 text-2xl  hover:text-cyan-500 active:scale-90 cursor-pointer duration-75"
+                onClick={handleSignOut}
+              >
+                <GoSignOut />
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link href={"/login"}>
+                <button className="py-2 px-4 hover:bg-base-300 cursor-pointer active:bg-base-200">
+                  Login
+                </button>
+              </Link>
+              <Link href={"/signup"} className="hidden sm:block">
+                <button className="py-2 px-4 hover:bg-base-300 active:bg-base-200 cursor-pointer">
+                  Sign Up
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
-      <div className="collapse-content lg:hidden z-1">
+      <div className="collapse-content lg:hidden z-1 bg-base-300 -ml-4">
         <ul className="menu gap-0">
           <li>
             <Link href={"/"}>
@@ -77,7 +129,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link href={"/"}>
+            <Link href={"/destinations"}>
               <button>Destinations</button>
             </Link>
           </li>
