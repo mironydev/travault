@@ -6,8 +6,11 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { deleteDestination } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { authClient } from "@/app/lib/auth-client";
 
 const DeleteModal = ({ destiDetails }) => {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
   const router = useRouter();
   const handleDelete = async (id) => {
     const res = await deleteDestination(id);
@@ -26,12 +29,25 @@ const DeleteModal = ({ destiDetails }) => {
 
   return (
     <AlertDialog>
-      <ModalTrigger>
-        <button className="border border-red-500 text-red-500 py-2 pr-4 pl-3 flex items-center gap-2">
+      {user ? (
+        <ModalTrigger>
+          <button className="border border-red-500 text-red-500 py-2 pr-4 pl-3 flex items-center gap-2 active:scale-95 duration-75">
+            <RiDeleteBin6Line />
+            Delete
+          </button>
+        </ModalTrigger>
+      ) : (
+        <button
+          onClick={() => {
+            toast.error("Login to delete this package.");
+          }}
+          className="border border-red-500 text-red-500 py-2 pr-4 pl-3 flex items-center gap-2 active:scale-95 duration-75"
+        >
           <RiDeleteBin6Line />
           Delete
         </button>
-      </ModalTrigger>
+      )}
+
       <AlertDialog.Backdrop>
         <AlertDialog.Container>
           <AlertDialog.Dialog className="sm:max-w-100 rounded-none">

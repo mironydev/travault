@@ -7,19 +7,12 @@ import React from "react";
 import { BiSolidStar } from "react-icons/bi";
 import { MdDateRange, MdOutlinePinDrop } from "react-icons/md";
 
-const DestinationCard = ({ destination }) => {
+const FeaturedCards = ({ destination }) => {
   const { category, country, destinationName, duration, imageUrl, price, _id } =
     destination;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ y: -5 }}
-      className="space-y-1"
-    >
+    <motion.div whileHover={{ y: -5 }} className="space-y-1">
       <div className="relative w-full aspect-video overflow-hidden">
         <Image
           src={imageUrl}
@@ -28,7 +21,7 @@ const DestinationCard = ({ destination }) => {
           className="object-cover hover:scale-105 duration-300"
           priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        ></Image>
+        />
 
         <span className="absolute right-5 top-5 flex items-center font-semibold gap-1 backdrop-blur-xs bg-white/60 border border-white/50 py-1 px-3">
           5.00 <BiSolidStar className="text-orange-500" />
@@ -71,4 +64,4 @@ const DestinationCard = ({ destination }) => {
   );
 };
 
-export default DestinationCard;
+export default FeaturedCards;

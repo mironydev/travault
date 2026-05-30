@@ -1,3 +1,24 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 @plugin "daisyui";
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.not-daisyui .select {
+  all: revert !important;
+}
+
+.not-daisyui select {
+  all: revert !important;
+}
+
+.not-daisyui * {
+  --tw-ring-shadow: 0 0 #0000 !important;
+}

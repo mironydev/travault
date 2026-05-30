@@ -1,7 +1,7 @@
 import AddDestination from "@/components/AddDestination";
 import React from "react";
 
-const AddDestinationPage = () => {
+const AddDestinationPage = async () => {
   return (
     <div>
       <AddDestination />

@@ -8,7 +8,7 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-black/95 text-gray-400 text-center md:text-left px-4 pt-12 pb-4 mt-16">
+    <footer className="bg-black/95 text-gray-400 text-center md:text-left px-4 pt-12 pb-4">
       <div className="container mx-auto">
         <div className="mb-12">
           <h1 className="text-6xl md:text-7xl font-bold text-white">
@@ -81,7 +81,9 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="border-t border-gray-800 mt-12 pt-4 flex flex-col md:flex-row justify-between items-center md:px-20">
-          <p className="text-sm">© 2026 Travault. All rights reserved.</p>
+          <p className="text-sm">
+            © {new Date().getFullYear()} Travault. All rights reserved.
+          </p>
 
           <div className="flex gap-5 mt-4 md:mt-0 text-white text-lg">
             <span className="cursor-pointer">

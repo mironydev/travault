@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import {
   Button,
   FieldError,
@@ -17,9 +17,14 @@ import {
 import { BiPencil } from "react-icons/bi";
 import toast from "react-hot-toast";
 import { editDestination } from "@/app/lib/actions";
+import { authClient } from "@/app/lib/auth-client";
 
 const EditModal = ({ destiDetails }) => {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
+
   const {
     category,
     country,
@@ -31,6 +36,7 @@ const EditModal = ({ destiDetails }) => {
     description,
     departureDate,
   } = destiDetails;
+
   const onSubmit = async (formData) => {
     startTransition(async () => {
       const res = await editDestination(_id, formData);
@@ -38,6 +44,7 @@ const EditModal = ({ destiDetails }) => {
         toast.success("Travel Package edited successfully!", {
           duration: 3000,
         });
+        setIsOpen(false);
       } else {
         toast.error("Something went wrong :(");
       }
@@ -46,12 +53,24 @@ const EditModal = ({ destiDetails }) => {
 
   return (
     <div>
-      <Modal>
-        <ModalTrigger>
-          <button className="border border-black/40 py-2 pr-4 pl-3 flex items-center gap-2 outline-0">
+      <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
+        {user ? (
+          <ModalTrigger>
+            <button
+              onClick={() => setIsOpen(true)}
+              className="border border-black/40 py-2 pr-4 pl-3 flex items-center gap-2 outline-0"
+            >
+              <BiPencil /> Edit
+            </button>
+          </ModalTrigger>
+        ) : (
+          <button
+            onClick={() => toast.error("Login to edit this package.")}
+            className="border border-black/40 py-2 pr-4 pl-3 flex items-center gap-2 outline-0"
+          >
             <BiPencil /> Edit
           </button>
-        </ModalTrigger>
+        )}
         <Modal.Backdrop>
           <Modal.Container placement="auto">
             <Modal.Dialog className="sm:max-w-2xl rounded-none px-8 py-10">
@@ -71,7 +90,6 @@ const EditModal = ({ destiDetails }) => {
                     className="px-4 pt-8 md:p-8 md:pb-0 space-y-8 mx-auto"
                   >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {/* Destination Name */}
                       <div className="md:col-span-2">
                         <TextField
                           defaultValue={destinationName}
@@ -87,7 +105,6 @@ const EditModal = ({ destiDetails }) => {
                         </TextField>
                       </div>
 
-                      {/* Country */}
                       <TextField
                         defaultValue={country}
                         name="country"
@@ -101,8 +118,7 @@ const EditModal = ({ destiDetails }) => {
                         <FieldError />
                       </TextField>
 
-                      {/* Category - Updated Select Component */}
-                      <div>
+                      <div className="not-daisyui">
                         <Select
                           defaultValue={category}
                           name="category"
@@ -110,8 +126,8 @@ const EditModal = ({ destiDetails }) => {
                           className="w-full"
                           placeholder="Select category"
                         >
-                          <Label>Category</Label>
-                          <Select.Trigger className="bg-base-200 rounded-none">
+                          <Label className="pb-0.5 text-sm">Category</Label>
+                          <Select.Trigger className="bg-base-200 rounded-none w-full">
                             <Select.Value />
                             <Select.Indicator />
                           </Select.Trigger>
@@ -122,55 +138,48 @@ const EditModal = ({ destiDetails }) => {
                                 textValue="Beach"
                                 className="rounded-none"
                               >
-                                Beach
-                                <ListBox.ItemIndicator />
+                                Beach <ListBox.ItemIndicator />
                               </ListBox.Item>
                               <ListBox.Item
                                 id="Mountain"
                                 textValue="Mountain"
                                 className="rounded-none"
                               >
-                                Mountain
-                                <ListBox.ItemIndicator />
+                                Mountain <ListBox.ItemIndicator />
                               </ListBox.Item>
                               <ListBox.Item
                                 id="City"
                                 textValue="City"
                                 className="rounded-none"
                               >
-                                City
-                                <ListBox.ItemIndicator />
+                                City <ListBox.ItemIndicator />
                               </ListBox.Item>
                               <ListBox.Item
                                 id="Adventure"
                                 textValue="Adventure"
                                 className="rounded-none"
                               >
-                                Adventure
-                                <ListBox.ItemIndicator />
+                                Adventure <ListBox.ItemIndicator />
                               </ListBox.Item>
                               <ListBox.Item
                                 id="Cultural"
                                 textValue="Cultural"
                                 className="rounded-none"
                               >
-                                Cultural
-                                <ListBox.ItemIndicator />
+                                Cultural <ListBox.ItemIndicator />
                               </ListBox.Item>
                               <ListBox.Item
                                 id="Luxury"
                                 textValue="Luxury"
                                 className="rounded-none"
                               >
-                                Luxury
-                                <ListBox.ItemIndicator />
+                                Luxury <ListBox.ItemIndicator />
                               </ListBox.Item>
                             </ListBox>
                           </Select.Popover>
                         </Select>
                       </div>
 
-                      {/* Price */}
                       <TextField
                         defaultValue={price}
                         name="price"
@@ -186,7 +195,6 @@ const EditModal = ({ destiDetails }) => {
                         <FieldError />
                       </TextField>
 
-                      {/* Duration */}
                       <TextField
                         defaultValue={duration}
                         name="duration"
@@ -200,7 +208,6 @@ const EditModal = ({ destiDetails }) => {
                         <FieldError />
                       </TextField>
 
-                      {/* Departure Date */}
                       <div className="md:col-span-2">
                         <TextField
                           defaultValue={departureDate}
@@ -217,7 +224,6 @@ const EditModal = ({ destiDetails }) => {
                         </TextField>
                       </div>
 
-                      {/* Image URL - Removed preview */}
                       <div className="md:col-span-2">
                         <TextField
                           defaultValue={imageUrl}
@@ -228,13 +234,12 @@ const EditModal = ({ destiDetails }) => {
                           <Input
                             type="url"
                             placeholder="https://example.com/bali-paradise.jpg"
-                            className="bg-base-200 rounded-none w-full  "
+                            className="bg-base-200 rounded-none w-full"
                           />
                           <FieldError />
                         </TextField>
                       </div>
 
-                      {/* Description */}
                       <div className="md:col-span-2">
                         <TextField
                           defaultValue={description}
@@ -252,14 +257,11 @@ const EditModal = ({ destiDetails }) => {
                       </div>
                     </div>
 
-                    {/* Buttons */}
-
                     <Button
                       type="submit"
                       variant="outline"
                       isDisabled={isPending}
-                      className=" rounded-none w-full bg-cyan-500 text-white"
-                      slot="close"
+                      className="rounded-none w-full bg-cyan-500 text-white"
                     >
                       {isPending
                         ? "Editing Package..."

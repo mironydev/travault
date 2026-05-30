@@ -39,11 +39,12 @@ const SignupCard = () => {
   const handleGoogleSignUp = async () => {
     await authClient.signIn.social({
       provider: "google",
+      callbackURL: "/?signup=success",
     });
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center mb-14">
       <h3 className="text-5xl font-extralight mt-8">Create Account</h3>
       <p className="text-gray-600 mb-6 mt-2">
         Start your adventure with Travault
