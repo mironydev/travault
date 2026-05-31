@@ -21,7 +21,7 @@ A full-stack travel booking platform built with Next.js 16. Browse destinations,
 
 - [Next.js 16](https://nextjs.org/) + [React 19](https://react.dev/)
 - [Better Auth](https://better-auth.com/) — authentication (email, Google)
-- [MongoDB](https://www.mongodb.com/) — database via Better Auth mongo adapter
+- [MongoDB](https://www.mongodb.com/) — database for destinations, bookings, and user auth
 - [HeroUI v3](https://heroui.com/) — UI component library
 - [Framer Motion](https://www.framer.motion.com/) — animations
 - [Tailwind CSS v4](https://tailwindcss.com/) + [DaisyUI v5](https://daisyui.com/)
