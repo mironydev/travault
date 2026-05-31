@@ -41,13 +41,13 @@ const Navbar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <div className="container mx-auto max-lg:collapse pl-4 select-none rounded-none">
+      <div className="container mx-auto max-lg:collapse select-none rounded-none">
         <input id="navbar-1-toggle" className="peer hidden" type="checkbox" />
         <label
           htmlFor="navbar-1-toggle"
           className="fixed inset-0 hidden max-lg:peer-checked:block"
         ></label>
-        <div className="collapse-title navbar">
+        <div className="collapse-title navbar pl-4">
           <div className="navbar-start">
             <label htmlFor="navbar-1-toggle" className="lg:hidden">
               <svg
@@ -134,15 +134,15 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="collapse-content lg:hidden z-1 bg-base-300 -ml-4">
-          <ul className="pt-4">
+        <div className="collapse-content lg:hidden z-1 bg-base-300 p-0">
+          <ul className="pt-px">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link href={link.href}>
                   <button
-                    className={`transition-colors duration-300 p-2 ${
+                    className={`transition-colors duration-300 p-2 pl-5 ${
                       isActive(link.href)
-                        ? "text-black font-semibold bg-cyan-100"
+                        ? "bg-white w-full text-left font-semibold "
                         : ""
                     }`}
                   >
